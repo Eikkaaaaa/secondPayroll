@@ -3,6 +3,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+Dockerfile
+database.mv.db
+database.trace.db
+
+
 ### STS ###
 .apt_generated
 .classpath

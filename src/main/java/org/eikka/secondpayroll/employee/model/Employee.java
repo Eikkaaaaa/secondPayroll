@@ -1,18 +1,16 @@
 package org.eikka.secondpayroll.employee.model;
 
+import org.springframework.data.jpa.domain.AbstractPersistable;
+
 import jakarta.persistence.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
-public class Employee {
+public class Employee extends AbstractPersistable<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -35,7 +33,7 @@ public class Employee {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        setMailDomain(email);
+        setEmail(email);
     }
 
     /**
@@ -49,13 +47,21 @@ public class Employee {
         this.modified = now;
     }
 
-    public String getMailDomain() {
-        return mailDomain;
+    public void setEmail(String email) {
+        this.email = email;
+        setMailDomain(email); // Automatically update mailDomain when email is set
     }
 
-    public void setMailDomain(String mailDomain) {
-        String[] parts = mailDomain.split("@");
-        this.mailDomain = "@" + parts[1];
+    public void setMailDomain(String email) {
+        if (email != null && email.contains("@")) {
+            this.mailDomain = email.substring(email.indexOf("@"));
+        } else {
+            this.mailDomain = "";
+        }
+    }
+
+    public String getMailDomain() {
+        return mailDomain;
     }
 
     public String getFirstName() {
@@ -78,10 +84,6 @@ public class Employee {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -102,27 +104,28 @@ public class Employee {
         this.modified = modified;
     }
 
-    public Long getId() {
-        return id;
+    public Long getEmployeeId(){
+        return super.getId();
     }
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(email, employee.email) && Objects.equals(phone, employee.phone);
+        return Objects.equals(getEmployeeId(), employee.getEmployeeId()) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(email, employee.email) && Objects.equals(phone, employee.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, phone);
+        return Objects.hash(getEmployeeId(), firstName, lastName, email, phone);
     }
 
     @Override
     public String toString() {
         return "Employee{" +
-                "id=" + id +
+                "id=" + getEmployeeId() +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
