@@ -1,72 +1,78 @@
 package org.eikka.secondpayroll.employee.service;
 
-import org.eikka.secondpayroll.employee.exception.EmployeeNotFoundException;
 import org.eikka.secondpayroll.employee.model.Employee;
-import org.eikka.secondpayroll.employee.repository.EmployeeRepository;
-import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.hateoas.IanaLinkRelations;
+
+import org.springframework.hateoas.EntityModel;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 
     /**
-     * Returns all employees from the database
-     * @return {@link Employee} list
+     * Fetches all employee instances from the database.
+     * @return {@link CollectionModel} of {@link EntityModel<Employee>} instances
      */
     @GetMapping
-    public List<Employee> all() {
-        return employeeRepository.findAll();
+    public CollectionModel<EntityModel<Employee>> all() {
+
+        return employeeService.All();
     }
 
+    /**
+     * Creates a new employee instance.
+     * @param employee The {@link Employee} data to be created
+     * @return ResponseEntity with the created employee model
+     */
     @PostMapping
-    public Employee create(@RequestBody Employee employee) {
-        return employeeRepository.save(employee);
+    public ResponseEntity<?> create(@RequestBody Employee employee) {
+
+        EntityModel<Employee> employeeModel = employeeService.create(employee);
+        return ResponseEntity.created(employeeModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(employeeModel);
     }
 
+    /**
+     * Retrieves a single employee by ID.
+     * @param id Employee ID
+     * @return EntityModel of the employee
+     */
     @GetMapping("/{id}")
-    public Employee one(@PathVariable Long id) {
-        return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+    public EntityModel<Employee> one(@PathVariable Long id) {
+
+        return employeeService.one(id);
     }
 
+    /**
+     * Updates an employee with the provided data.
+     * @param id Employee ID
+     * @param newEmployee Employee data for the update
+     * @return ResponseEntity with the updated employee model
+     */
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Long id, @RequestBody Employee newEmployee) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Employee newEmployee) {
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-        String now = formatter.format(new Date());
-
-        return employeeRepository.findById(id)
-                .map(employee -> {
-                    if (newEmployee.getFirstName() != null) {
-                        employee.setFirstName(newEmployee.getFirstName());
-                    }
-                    if (newEmployee.getLastName() != null) {
-                        employee.setLastName(newEmployee.getLastName());
-                    }
-                    if (newEmployee.getEmail() != null) {
-                        employee.setEmail(newEmployee.getEmail());
-                    }
-                    if (newEmployee.getPhone() != null) {
-                        employee.setPhone(newEmployee.getPhone());
-                    }
-
-                    employee.setModified(now);
-                    return employeeRepository.save(employee);
-                }).orElseGet(() -> employeeRepository.save(newEmployee));
+        EntityModel<Employee> employeeModel = employeeService.update(id, newEmployee);
+        return ResponseEntity.ok(employeeModel);
     }
 
+    /**
+     * Deletes an employee by ID.
+     * @param id Employee ID
+     * @return NoContent response if successful
+     */
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        employeeRepository.deleteById(id);
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        employeeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

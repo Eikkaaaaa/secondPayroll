@@ -19,6 +19,7 @@ public class Employee {
     private String phone;
     private String created;
     private String modified;
+    private String mailDomain;
 
     public Employee() {}
 
@@ -34,6 +35,7 @@ public class Employee {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        setMailDomain(email);
     }
 
     /**
@@ -45,6 +47,15 @@ public class Employee {
         String now = formatter.format(new Date());
         this.created = now;
         this.modified = now;
+    }
+
+    public String getMailDomain() {
+        return mailDomain;
+    }
+
+    public void setMailDomain(String mailDomain) {
+        String[] parts = mailDomain.split("@");
+        this.mailDomain = "@" + parts[1];
     }
 
     public String getFirstName() {

@@ -1,0 +1,10 @@
+
+CollectionModel<EntityModel<Employee>> all()
+
+ResponseEntity<?> create(@RequestBody Employee employee)
+
+EntityModel<Employee> one(@PathVariable Long id) 
+
+ResponseEntity<?> update(@PathVariable Long id, @RequestBody Employee newEmployee)
+
+ResponseEntity<?> delete(@PathVariable Long id)
