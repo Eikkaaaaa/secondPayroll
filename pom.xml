@@ -11,7 +11,7 @@
     <groupId>org.eikka</groupId>
     <artifactId>secondPayroll</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>secondPayroll</name>
+    <name>SecondPayrollApplication</name>
     <description>second payroll</description>
     <url/>
     <licenses>
@@ -73,6 +73,15 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <mainClass>org.eikka.secondpayroll.SecondPayrollApplication</mainClass>
+
                 </configuration>
             </plugin>
         </plugins>

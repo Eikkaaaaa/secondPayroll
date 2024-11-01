@@ -9,6 +9,25 @@ import org.springframework.hateoas.IanaLinkRelations;
 
 import org.springframework.hateoas.EntityModel;
 
+/**
+ * All methods in this class responds to queries made to "/employees" subdomain
+ * <ul>
+ *     <li>{@code GET} command is used to fetch all employees from the db, e.g. {@code localhost:8080/employees}</li>
+ *     <li>{@code POST} command is used to create an {@link Employee}, JSON has to contain these attributes:</li>
+ *     <ul>
+ *         <li>{@code firstName}</li>
+ *         <li>{@code lastName}</li>
+ *         <li>{@code email}</li>
+ *         <li>{@code phone}</li>
+ *     </ul>
+ *     <li>{@code GET} command to /id fetches one employee, e.g. {@code localhost:8080/employees/1}</li>
+ *     <li>{@code UPDATE} command to /id updates an employee, e.g. {@code localhost:8080/employees/1}</li>
+ *     <ul>
+ *         <li>Requires an Employee instance where from the updated info is picked from</li>
+ *     </ul>
+ *     <li>{@code DELETE} command to /id deletes an employee, e.g. {@code localhost:8080/employees/1}</li>
+ * </ul>
+ */
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
