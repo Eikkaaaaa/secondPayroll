@@ -1,4 +1,4 @@
-package org.eikka.secondpayroll;
+package org.eikka.secondpayroll.configuration;
 
 import org.eikka.secondpayroll.employee.model.Employee;
 import org.eikka.secondpayroll.employee.repository.EmployeeRepository;

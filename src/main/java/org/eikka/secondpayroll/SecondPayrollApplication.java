@@ -9,5 +9,4 @@ public class SecondPayrollApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecondPayrollApplication.class, args);
     }
-
 }

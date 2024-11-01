@@ -30,6 +30,7 @@ import org.springframework.hateoas.EntityModel;
  */
 @RestController
 @RequestMapping("/employees")
+@CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS, RequestMethod.HEAD, RequestMethod.PATCH})
 public class EmployeeController {
 
     private final EmployeeService employeeService;
