@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fa92b1a2-0e49-48e2-9b38-b78110f06936" name="Changes" comment="added configuration files">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -139,7 +140,7 @@
       <option name="presentableId" value="Default" />
       <updated>1730386284445</updated>
       <workItem from="1730388270163" duration="277000" />
-      <workItem from="1730388583124" duration="49743000" />
+      <workItem from="1730388583124" duration="50127000" />
     </task>
     <task id="LOCAL−00001" summary="first commit">
       <option name="closed" value="true" />
