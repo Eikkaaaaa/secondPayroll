@@ -1,0 +1,11 @@
+### GET all
+GET http://localhost:8080/employees
+Accept: application/json
+
+### GET one
+GET http://localhost:8080/employees/3
+Accept: application/json
+
+### DELETE
+DELETE http://localhost:8080/employees/3
+Accept: application/json

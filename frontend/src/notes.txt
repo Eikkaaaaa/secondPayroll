@@ -1,0 +1,50 @@
+import React, { useState, useEffect } from 'react';
+import employeeService from './services/employees';
+import EmployeeList from "./components/employeeList/EmployeeList.jsx";
+import AddEmployee from "./components/AddEmployeeForm.jsx";
+
+
+const App = () => {
+
+    const [employees, setEmployees] = useState([]);
+    const [newEmployee, setNewEmployee] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: ""
+    });
+
+    useEffect(() => {
+        employeeService.getAllEmployees()
+        .then(response => {
+            setEmployees(response._embedded.employeeList);
+        })
+        .catch(error => console.log("Error fetching employees: ", error));
+    }, [])
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        console.log(e.target.value);
+        setNewEmployee({ ...newEmployee, [name]: value });
+    }
+
+    const handleAddEmployee = async (e) => {
+        e.preventDefault();
+        try {
+            const addEmployee = await employeeService.addEmployee(newEmployee);
+            setEmployees([...employees, addEmployee]);
+            setNewEmployee({firstName: "", lastName: "", email: "", phone: ""});
+        } catch (error) {
+            console.error("Error adding employee: ", error);
+        }
+    }
+
+    return(
+        <div>
+            <EmployeeList employees={employees} />
+            <AddEmployee handleInputChange={handleInputChange} handleAddEmployee={handleAddEmployee} newEmployee={newEmployee} />
+        </div>
+    )
+};
+
+export default App;
