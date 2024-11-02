@@ -8,3 +8,9 @@ EntityModel<Employee> one(@PathVariable Long id)
 ResponseEntity<?> update(@PathVariable Long id, @RequestBody Employee newEmployee)
 
 ResponseEntity<?> delete(@PathVariable Long id)
+
+
+First: docker build -t secondpayroll .
+Second: docker run -p 8080:8080 secondpayroll
+
+Fix: ./mvnw clean package -DskipTests
